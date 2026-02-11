@@ -13,6 +13,7 @@ from src.TLRec.utils import Apply_Phase_Wiener_filter
 from GUI.utils import resource_path
 from GUI.ui.styles import Styles as stl
 from GUI.ui.widgets import Widget as wg 
+import GUI.i18n as i18n
 
 
 def log(msg, text_widget=None):
@@ -193,33 +194,19 @@ class TLRecBatchGUI:
         self.master.grid_rowconfigure(0, weight=1)
         self.master.grid_columnconfigure(0, weight=1)
         
-        info_frame = ttk.LabelFrame(main, text="Batch Reconstruction", padding=(8, 6))
+        info_frame = ttk.LabelFrame(main, text=i18n.BATCH_TITLE, padding=(8, 6))
         info_frame.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(0, 10))
-        
-        info_text = (
-            "This tool automatically reconstructs multiple acquisitions without "
-            "loading the stacks into the main GUI.\n\n"
-            "Required folder structure inside the selected 'Acquisitions' folder:\n"
-            "  - Acquisitions/AcquisitionX/Object/ -> object TIFF stack\n"
-            "  - Acquisitions/AcquisitionX/Reference/ -> optional local reference stack (for each object TIFF stack)\n"
-            "  - Acquisitions/Reference/ -> optional global reference stack\n\n"
-            "For each AcquisitionX, the program uses the local Reference/ folder "
-            "if available; otherwise it falls back to the global Acquisitions/Reference/.\n"
-            "Results (DPC, Phase, Transmission, DarkField) are saved in:\n"
-            "  Acquisitions/AcquisitionX/Retrieved/"
-        )
 
-
-        lbl_info = ttk.Label(info_frame, text=info_text, justify="left", anchor="w", wraplength=650)
+        lbl_info = ttk.Label(info_frame, text=i18n.BATCH_INFO, justify="left", anchor="w", wraplength=650)
         lbl_info.grid(row=0, column=0, sticky="w")
         
-        ttk.Label(main, text="'Acquisitions' folder:").grid(row=1, column=0, sticky="w")
+        ttk.Label(main, text=i18n.BATCH_ACQ_FOLDER).grid(row=1, column=0, sticky="w")
         entry = ttk.Entry(main, textvariable=self.root_dir_var, width=60)
         entry.grid(row=2, column=0, sticky="ew", padx=(0, 5))
-        btn_browse = ttk.Button(main, text="Browse...", command=self.browse_root_dir)
+        btn_browse = ttk.Button(main, text=i18n.BTN_BROWSE, command=self.browse_root_dir)
         btn_browse.grid(row=2, column=1, sticky="e")
 
-        ttk.Label(main, text="Reconstruction Algorithm:").grid(row=3, column=0, sticky="w", pady=(10, 0))
+        ttk.Label(main, text=i18n.BATCH_REC_ALGO).grid(row=3, column=0, sticky="w", pady=(10, 0))
 
         OPTIONS = [
             "Fast FFT",
@@ -233,7 +220,7 @@ class TLRecBatchGUI:
         algo_cb.grid(row=4, column=0, sticky="w")
         algo_cb.current(0)
 
-        btn_run = ttk.Button(main, text="Run batch", command=self.start_batch)
+        btn_run = ttk.Button(main, text=i18n.BTN_RUN_BATCH, command=self.start_batch)
         btn_run.grid(row=4, column=1, sticky="e")
 
         self.text_log = tk.Text(main, height=15, bg="#1e1e1e", fg="white")
@@ -247,18 +234,18 @@ class TLRecBatchGUI:
         main.rowconfigure(5, weight=1)
 
     def browse_root_dir(self):
-        folder = filedialog.askdirectory(title="Select 'Acquisitions' folder")
+        folder = filedialog.askdirectory(title=i18n.BATCH_ACQ_FOLDER)
         if folder:
             self.root_dir_var.set(folder)
 
     def start_batch(self):
         root_dir = self.root_dir_var.get().strip()
         if not root_dir:
-            messagebox.showwarning("Missing folder", "Please select the 'Acquisitions' folder.")
+            messagebox.showwarning(i18n.BATCH_MISSING_FOLDER, i18n.BATCH_MISSING_MSG)
             return
 
         if not os.path.isdir(root_dir):
-            messagebox.showerror("Invalid folder", "Selected path is not a folder.")
+            messagebox.showerror(i18n.BATCH_INVALID_FOLDER, i18n.BATCH_INVALID_MSG)
             return
 
         algo_name = self.algo_var.get()
@@ -269,10 +256,9 @@ class TLRecBatchGUI:
         def worker():
             try:
                 run_batch_TLRec(root_dir, self.cfg, algo_name, text_log=self.text_log)
-                # OJO: aquí usamos master.after, no self.after
-                self.master.after(0, lambda: messagebox.showinfo("Batch finished", "Batch reconstruction completed."))
+                self.master.after(0, lambda: messagebox.showinfo(i18n.BATCH_FINISHED_TITLE, i18n.BATCH_FINISHED))
             except Exception as e:
-                self.master.after(0, lambda: messagebox.showerror("Error", f"An error occurred:\n{e}"))
+                self.master.after(0, lambda: messagebox.showerror(i18n.ERR_TITLE, i18n.ERR_GENERAL_MSG.format(e)))
             finally:
                 self.master.after(0, lambda: self.set_ui_busy(False))
 

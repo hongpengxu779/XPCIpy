@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from GUI.utils import resource_path
+import GUI.i18n as i18n
 
 class BaseTextWindow(tk.Toplevel):
 
@@ -24,7 +25,7 @@ class BaseTextWindow(tk.Toplevel):
 class LicenseWindow(BaseTextWindow):
 
     def __init__(self, master):
-        super().__init__(master, title="License", font=("Courier", 10))
+        super().__init__(master, title=i18n.WIN_LICENSE_TITLE, font=("Courier", 10))
 
         try:
             license_path = resource_path("LICENSE")
@@ -39,7 +40,7 @@ class LicenseWindow(BaseTextWindow):
 class CiteWindow(BaseTextWindow):
 
     def __init__(self, master):
-        super().__init__(master, title="How to cite XPCIpy", font=("Arial", 11))
+        super().__init__(master, title=i18n.WIN_CITE_TITLE, font=("Arial", 11))
 
         plain_citation = (
             "V. Sanchez-Lara and D. Garcia-Pinto, \"XPCIpy: A Python toolkit for X-ray phase-contrast imaging,\" Opt. Express  33, 45949-45966 (2025).\n"
@@ -64,7 +65,7 @@ class CiteWindow(BaseTextWindow):
         """.strip("\n")
 
         content = (
-            "How to cite XPCIpy\n"
+            i18n.WIN_CITE_HEADER + "\n"
             "------------------\n\n"
             + plain_citation
             + "\nBibTeX:\n\n"

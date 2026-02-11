@@ -3,6 +3,7 @@ import tkinter as tk
 import os
 import platform
 from tkinter import filedialog, messagebox
+import GUI.i18n as i18n
 
 # For Drag and Drop functionality
 try:
@@ -220,10 +221,13 @@ class DropZone(tk.Frame):
         multiple=False,
         filetypes=None,
         enable_dnd=True,
-        status_text="No file loaded",
+        status_text=None,
         **kwargs
     ):
         super().__init__(parent, bg="#252525", bd=1, relief="solid", **kwargs)
+
+        if status_text is None:
+            status_text = i18n.DZ_NO_FILE
 
         self.on_files_dropped = on_files_dropped
         self.extensions = [ext.lower() for ext in extensions] if extensions else None
@@ -248,7 +252,7 @@ class DropZone(tk.Frame):
         self.desc_lbl.grid(row=1, column=0, pady=(2, 0))
 
         # "or"
-        self.or_lbl = tk.Label(inner, text="or", bg="#303030", fg="#888888", font=("Segoe UI", 8, "italic"))
+        self.or_lbl = tk.Label(inner, text="或", bg="#303030", fg="#888888", font=("Segoe UI", 8, "italic"))
         self.or_lbl.grid(row=2, column=0, pady=(0, 0))
 
         # Browse button
@@ -305,19 +309,18 @@ class DropZone(tk.Frame):
             paths = self.tk.splitlist(raw)
             paths = self._filter_by_extension(paths)
             if not paths:
-                messagebox.showwarning("Invalid files", "The dropped files do not match the expected extensions.")
+                messagebox.showwarning(i18n.INVALID_FILES, i18n.INVALID_FILES_MSG)
                 return
             if self.on_files_dropped:
                 self.on_files_dropped(list(paths))
         except Exception as e:
-            messagebox.showerror("Drop error", f"Could not process dropped files:\n{e}")
+            messagebox.showerror(i18n.DROP_ERROR, i18n.DROP_ERROR_MSG.format(e))
     
     def set_status_text(self, text):
         """Update the status label text."""
         if not text:
-            text = "No file loaded"
+            text = i18n.DZ_NO_FILE
         else:
-            text = f"Loaded: {text}"
+            text = i18n.DZ_LOADED.format(text)
         self.status_lbl.config(text=text)
-        
-    
+
