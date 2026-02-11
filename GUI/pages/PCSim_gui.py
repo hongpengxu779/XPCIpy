@@ -1720,7 +1720,7 @@ class PCSim_gui:
         bar_height = self.c_bar_height.get()
         multiples = self.c_multiple.get()
         iterations = self.c_iterations.get()
-        grating_opt = self.c_grating_option.get()
+        grating_opt = self.c_grating_def.get()
         
         if n <=0:
             messagebox.showerror(i18n.VAL_INVALID_PARAMS, i18n.VAL_POSITIVE_N)
