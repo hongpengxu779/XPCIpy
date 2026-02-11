@@ -1,0 +1,9 @@
+numpy
+scipy
+scikit-image
+Pillow
+tifffile
+matplotlib
+tqdm
+tkinterdnd2
+numba
