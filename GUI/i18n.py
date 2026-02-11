@@ -407,3 +407,117 @@ ST_FINISHED_SUFFIX = " 完成！"
 ST_SIM_FINISHED = "仿真完成！"
 ST_PREPARING_FIT = "正在准备 {} 的重建..."
 ST_READY = "就绪"
+
+# ==================== PBI Phase Retrieval (PBIRec) ====================
+TAB_PBI_REC = "PBI相位重建"
+
+# Drop zones
+PBI_DZ_IMG_TITLE = "强度图像"
+PBI_DZ_IMG_DESC = "拖放归一化强度TIFF图像（多距离请拖入多个文件或多页TIFF）"
+PBI_DZ_IMG_BTN = "浏览强度图像"
+PBI_DZ_FLAT_TITLE = "平场图像（可选）"
+PBI_DZ_FLAT_DESC = "拖放平场/空场TIFF图像"
+PBI_DZ_FLAT_BTN = "浏览平场图像"
+PBI_DZ_DARK_TITLE = "暗场图像（可选）"
+PBI_DZ_DARK_DESC = "拖放暗场TIFF图像"
+PBI_DZ_DARK_BTN = "浏览暗场图像"
+
+# Labels
+PBI_LBL_DIST_TABLE = "传播距离 DOD（cm），每行一个值或逗号分隔"
+PBI_DIST_PLACEHOLDER = "例如:\n5.0\n10.0\n20.0"
+PBI_LBL_ENERGY = "能量 (keV)"
+PBI_LBL_PIXEL = "探测器像素尺寸 (µm)"
+PBI_LBL_DSO = "源到物体距离 DSO (cm)"
+PBI_LBL_BEAM = "光束类型"
+PBI_LBL_ALGO = "重建算法"
+PBI_LBL_DELTA_BETA = "δ/β 比 (仅 Paganin)"
+PBI_LBL_ALPHA = "正则化参数 α"
+PBI_LBL_PAD = "边缘填充像素数"
+
+# Buttons
+PBI_BTN_SAVE_PHASE = "保存相位图"
+PBI_BTN_SAVE_ABS = "保存吸收/厚度图"
+
+# Tooltips
+PBI_TT_ENERGY = "X射线光子能量，单位 keV。"
+PBI_TT_PIXEL = "探测器像素的物理尺寸，单位 µm。"
+PBI_TT_DSO = "源到物体距离（锥形束时需要），单位 cm。平行束请设为 0。"
+PBI_TT_BEAM = "光束几何类型：Conical（锥形束/微焦点）或 Plane（平行束/同步辐射）。"
+PBI_TT_ALGO = (
+    "相位重建算法：\n"
+    "• TIE 多距离 — 多距离传输强度方程（≥2张图）\n"
+    "• CTF 多距离 — 多距离对比传递函数（弱物体近似）\n"
+    "• Paganin 单距离 — 单距离同质材料假设"
+)
+PBI_TT_DELTA_BETA = "材料折射率实部与虚部之比 δ/β（仅 Paganin 方法使用）。软组织约 1000，塑料约 500-2000。"
+PBI_TT_ALPHA = "Tikhonov 正则化参数，防止频域除零。值越大越平滑但会损失细节。"
+PBI_TT_PAD = "在图像边缘填充的像素数，用于减少边缘伪影。0 = 不填充。"
+
+# Status / messages
+PBI_ST_RUNNING = "正在运行 PBI 相位重建 ({})..."
+PBI_ST_FINISHED = "PBI 相位重建完成！"
+PBI_ST_ZIP_SAVED = "PBI 重建结果 ZIP 已保存。"
+PBI_IMAGES_LOADED = "张强度图像已加载"
+PBI_ERR_LOAD_IMG = "无法加载图像文件。"
+PBI_ERR_NO_IMAGES = "请先加载至少一张强度图像。"
+PBI_ERR_PARAMS = "请确保能量和像素尺寸为正值。"
+PBI_ERR_NEED_1_DIST = "Paganin 方法需要至少输入 1 个传播距离 (DOD)。"
+PBI_ERR_DIST_MISMATCH = "图像数量 ({}) 与距离数量 ({}) 不匹配。多距离方法要求二者一一对应。"
+PBI_NO_RESULT_TITLE = "无结果"
+PBI_NO_RESULT_MSG = "尚未运行重建，无结果可保存。"
+
+# Plot titles
+PBI_PLOT_PHASE = "相位 φ(x,y)"
+PBI_PLOT_ABS = "吸收 / 投影厚度"
+
+# ==================== Help: PBI Rec ====================
+HELP_TAB_PBI_REC = "PBI相位重建指南"
+HELP_PBI_REC_TITLE = "PBI (传播成像) 相位重建"
+HELP_PBI_REC_OVERVIEW = "概述"
+HELP_PBI_REC_OVERVIEW_DESC = (
+    "本模块用于从基于传播的 (Inline / PBI) X射线成像实验数据中重建相位信息。\n"
+    "支持多距离与单距离两类方法，适用于锥形束和平行束几何。\n"
+)
+HELP_PBI_REC_ALGOS_TITLE = "支持的算法"
+HELP_PBI_REC_ALGOS_BULLETS = [
+    " - **TIE 多距离**：基于传输强度方程 (Transport of Intensity Equation)，需 ≥2 张不同传播距离的归一化强度图。适用于混合材料样品。\n",
+    " - **CTF 多距离**：基于对比传递函数 (Contrast Transfer Function) 的弱物体近似，需 ≥2 张图。对弱相位/弱吸收物体效果较好。\n",
+    " - **Paganin 单距离**：假设同质材料，仅需 1 张图 + δ/β 比值。简单快速，适用于单一材料样品。\n",
+]
+HELP_PBI_REC_WORKFLOW_TITLE = "工作流程"
+HELP_PBI_REC_WORKFLOW_BULLETS = [
+    " 1. 加载强度图像（拖放或浏览；多距离请加载多个文件或多页TIFF）。\n",
+    " 2. 可选：加载平场 (flat) 和暗场 (dark) 图像用于归一化。\n",
+    " 3. 在距离表中输入每张图对应的 DOD（物体到探测器距离，cm），每行一个值。\n",
+    " 4. 填写能量 (keV)、像素尺寸 (µm)、DSO (cm)、光束类型等参数。\n",
+    " 5. 选择算法并点击「运行」。\n",
+    " 6. 查看/保存相位图和吸收图。\n",
+]
+HELP_PBI_REC_PARAMS_TITLE = "参数说明"
+HELP_PBI_REC_PARAMS_BULLETS = [
+    " - **能量 (keV)**：X射线光子能量。\n",
+    " - **像素尺寸 (µm)**：探测器物理像素大小。\n",
+    " - **DSO (cm)**：源到物体距离；平行束请设为 0。\n",
+    " - **δ/β 比**：材料折射率实部与虚部之比（仅 Paganin 使用）。\n",
+    " - **α (正则化)**：Tikhonov 正则化参数，防止噪声放大。\n",
+    " - **填充像素**：边缘零填充像素数，减少边缘伪影。\n",
+]
+
+# ==================== PBI Preview ====================
+PBI_PREVIEW_TITLE = "图像预览"
+PBI_PREVIEW_INPUT = "输入图像"
+PBI_PREVIEW_FLAT = "平场图像"
+PBI_PREVIEW_DARK = "暗场图像"
+PBI_PREVIEW_PHASE = "相位图"
+PBI_PREVIEW_ABS = "吸收/厚度图"
+PBI_PREVIEW_NONE = "（无图像）"
+PBI_PREVIEW_IMG_N = "强度图 #{}"
+PBI_PREVIEW_SHAPE = "尺寸: {}×{}"
+PBI_PREVIEW_RANGE = "值域: [{:.4g}, {:.4g}]"
+PBI_PREVIEW_PIXEL_INFO = "像素 ({}, {}): {:.6g}"
+PBI_PREVIEW_WL_TITLE = "窗宽/窗位"
+PBI_PREVIEW_WINDOW = "窗宽 (W)"
+PBI_PREVIEW_LEVEL = "窗位 (L)"
+PBI_PREVIEW_AUTO_WL = "自动"
+PBI_PREVIEW_TAB_INPUT = "输入"
+PBI_PREVIEW_TAB_RESULT = "结果"

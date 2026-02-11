@@ -18,6 +18,7 @@ class HelpWindow:
 
         self.tab_sim = ttk.Frame(notebook)
         self.tab_rec = ttk.Frame(notebook)
+        self.tab_pbi_rec = ttk.Frame(notebook)
         self.tab_rec_batch = ttk.Frame(notebook)
         self.tab_about = ttk.Frame(notebook)
         self.tab_license = ttk.Frame(notebook)
@@ -25,12 +26,14 @@ class HelpWindow:
 
         notebook.add(self.tab_sim, text=i18n.HELP_TAB_SIM)
         notebook.add(self.tab_rec, text=i18n.HELP_TAB_REC)
+        notebook.add(self.tab_pbi_rec, text=i18n.HELP_TAB_PBI_REC)
         notebook.add(self.tab_rec_batch, text=i18n.HELP_TAB_BATCH)
         notebook.add(self.tab_about, text=i18n.HELP_TAB_ABOUT)
 
         # Fill content
         self._populate_simulation_guide()
         self._populate_reconstruction_guide()
+        self._populate_pbi_rec_guide()
         self._populate_reconstruction_batch()
         self._populate_about_tab()
   
@@ -78,11 +81,32 @@ class HelpWindow:
 
         text.insert("end", "\n" + i18n.HELP_REC_TOOLS_TITLE + "\n", "subtitle")
         text.insert("end", i18n.HELP_REC_TOOLS_DESC)
-        for b in i18n.HELP_REC_TOOLS_BULLETS:
-            text.insert("end", b, "bullet")
+        for b in i18n.HELP_REC_TOOLS_BULLETS:            text.insert("end", b, "bullet")
 
         text.config(state="disabled")
         
+    def _populate_pbi_rec_guide(self):
+        text = self._make_text_widget(self.tab_pbi_rec)
+
+        text.insert("end", i18n.HELP_PBI_REC_TITLE + "\n", "title")
+
+        text.insert("end", "\n" + i18n.HELP_PBI_REC_OVERVIEW + "\n", "subtitle")
+        text.insert("end", i18n.HELP_PBI_REC_OVERVIEW_DESC)
+
+        text.insert("end", "\n" + i18n.HELP_PBI_REC_ALGOS_TITLE + "\n", "subtitle")
+        for b in i18n.HELP_PBI_REC_ALGOS_BULLETS:
+            text.insert("end", b, "bullet")
+
+        text.insert("end", "\n" + i18n.HELP_PBI_REC_WORKFLOW_TITLE + "\n", "subtitle")
+        for b in i18n.HELP_PBI_REC_WORKFLOW_BULLETS:
+            text.insert("end", b, "bullet")
+
+        text.insert("end", "\n" + i18n.HELP_PBI_REC_PARAMS_TITLE + "\n", "subtitle")
+        for b in i18n.HELP_PBI_REC_PARAMS_BULLETS:
+            text.insert("end", b, "bullet")
+
+        text.config(state="disabled")
+
     def _populate_reconstruction_batch(self):
         text = self._make_text_widget(self.tab_rec_batch)
         text.insert("end", "\n" + i18n.HELP_BATCH_TITLE + "\n", "title")

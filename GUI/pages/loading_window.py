@@ -1,6 +1,7 @@
 import tkinter as tk
 from GUI.utils import resource_path
 from GUI.__init__ import __version__
+import GUI.i18n as i18n
 
 class LoadingScreen(tk.Toplevel):
     def __init__(self, master, duration=1500):
@@ -29,7 +30,7 @@ class LoadingScreen(tk.Toplevel):
             tk.Label(container, text="XPCIpy", fg="white", bg="#4E95D9",
                      font=("Arial", 32, "bold")).grid(row=0, column=0, pady=(20,10))
 
-        tk.Label(container, text="正在加载 XPCIpy…", fg="white", bg="#4E95D9",
+        tk.Label(container, text=i18n.LOADING_TEXT, fg="white", bg="#4E95D9",
                  font=("Arial", 12)).grid(row=1, column=0)
         
         tk.Label(container, text= f"v.{__version__}", fg="white", bg="#4E95D9",

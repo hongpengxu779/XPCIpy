@@ -36,6 +36,7 @@ from GUI.ui.tooltips import ToolTip
 from GUI.pages.help_window import HelpWindow
 from GUI.pages.info_windows import LicenseWindow, CiteWindow
 from GUI.pages.TLRec_batch_gui import TLRecBatchGUI
+from GUI.pages.PBIRec_gui import PBIRec_GUI
 import GUI.i18n as i18n
 
 class PCSim_gui:
@@ -133,6 +134,7 @@ class PCSim_gui:
         self.check_TL_tab = ttk.Frame(self.tab_container, style="TFrame")
         self.TL_tab = ttk.Frame(self.tab_container, style="TFrame")
         self.TL_batch_tab = ttk.Frame(self.tab_container, style="TFrame")
+        self.pbi_rec_tab = ttk.Frame(self.tab_container, style="TFrame")
 
         # Add tabs to the tabs container
         self.tab_container.add(self.TLRec_tab, text = i18n.TAB_TLREC)
@@ -140,12 +142,14 @@ class PCSim_gui:
         self.tab_container.add(self.check_TL_tab, text=i18n.TAB_CHECK_TL)
         self.tab_container.add(self.TL_tab, text=i18n.TAB_TL_SIM)
         self.tab_container.add(self.TL_batch_tab, text=i18n.TAB_TLREC_BATCH)
+        self.tab_container.add(self.pbi_rec_tab, text=i18n.TAB_PBI_REC)
 
         self.populate_TLRec_tab()
         self.populate_inline_tab()
         self.populate_checkTL_tab()
         self.populate_TL_tab()
         self.populate_TLRec_batch_tab()
+        self.populate_pbi_rec_tab()
         
     def populate_TLRec_tab(self):
         scrollframe = vsf(self.TLRec_tab)
@@ -167,6 +171,14 @@ class PCSim_gui:
         self.TL_batch_tab.grid_rowconfigure(0, weight=1)
         self.TL_batch_tab.grid_columnconfigure(0, weight=1)
         self.tlrec_batch_gui = TLRecBatchGUI(container)
+
+    def populate_pbi_rec_tab(self):
+        scrollframe = vsf(self.pbi_rec_tab)
+        scrollframe.grid(row=0, column=0, sticky="nsew")
+        container = scrollframe.interior
+        self.pbi_rec_tab.grid_rowconfigure(0, weight=1)
+        self.pbi_rec_tab.grid_columnconfigure(0, weight=1)
+        self.pbi_rec_gui = PBIRec_GUI(container, status_var=self.status_var)
         
     def populate_inline_tab(self):
         
